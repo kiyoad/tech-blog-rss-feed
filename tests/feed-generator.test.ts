@@ -30,4 +30,22 @@ describe('FeedGenerator', () => {
     expect(result.aggregatedFeed.items[0].image).toBeUndefined();
     expect(result.feedDistributionSet.atom).toContain('<feed');
   });
+
+  it('guidがURL形式でない場合はlinkをidとしてフィード生成できる', () => {
+    const feedItem = {
+      title: 'テスト記事',
+      link: 'https://example.com/test-article/',
+      // URLでないguid（例: MongoDBのObjectIdのような不透明なID）
+      guid: '6a853e4d08752169b9ab7316',
+      isoDate: '2026-06-09T04:03:10.000Z',
+      blogTitle: 'Example Tech Blog',
+      blogLink: 'https://example.com',
+    } as CustomRssParserItem;
+    const feedGenerator = new FeedGenerator();
+
+    const result = feedGenerator.generateFeeds([feedItem], new Map(), new Map(), 200, 500);
+
+    expect(result.aggregatedFeed.items[0].id).toBe(feedItem.link);
+    expect(result.feedDistributionSet.atom).toContain('<feed');
+  });
 });

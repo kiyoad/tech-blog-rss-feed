@@ -73,7 +73,8 @@ export class FeedGenerator {
     for (const feedItem of feedItems) {
       logger.info('[create-feed-item]', feedItem.isoDate, feedItem.title);
 
-      const feedItemId = feedItem.guid || feedItem.link;
+      // guidがURL形式でない場合、Atomフィード生成時に new URL() が throw するため link にフォールバックする
+      const feedItemId = feedItem.guid && isValidHttpUrl(feedItem.guid) ? feedItem.guid : feedItem.link;
       const feedItemContent = (feedItem.summary || feedItem.contentSnippet || '').replace(/(\n|\t+|\s+)/g, ' ');
 
       const ogObject = feedItemOgObjectMap.get(feedItem.link);
