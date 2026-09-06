@@ -41,6 +41,12 @@ export function render(data: MainLayoutData): string {
         </script>`
     : '';
 
+  const xLink = constants.xUserUrl
+    ? `<a href="${escapeHtml(constants.xUserUrl)}" role="link" aria-label="X" target="_blank" rel="noopener noreferrer">
+                        <img src='${relativeUrl}images/icon-x.png' alt='Xロゴ' loading="eager" width='96' height='96' />
+                    </a>`
+    : '';
+
   const howToAddSite = constants.howToAddSiteLink
     ? `<p class='ui-text-note'>
                         追加したいブログがある場合は<br>
@@ -106,9 +112,7 @@ export function render(data: MainLayoutData): string {
                     <a href="${escapeHtml(constants.gitHubRepositoryUrl)}" role="link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
                         <img src='${relativeUrl}images/icon-github.png' alt='GitHubロゴ' loading="eager" width='96' height='96' />
                     </a>
-                    <a href="${escapeHtml(constants.xUserUrl)}" role="link" aria-label="X" target="_blank" rel="noopener noreferrer">
-                        <img src='${relativeUrl}images/icon-x.png' alt='Xロゴ' loading="eager" width='96' height='96' />
-                    </a>
+                    ${xLink}
                 </div>
             </div>
         </div>
